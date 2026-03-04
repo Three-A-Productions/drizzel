@@ -1241,16 +1241,16 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288450436
-  m_fontColor: {r: 0.51775545, g: 0.5626274, b: 0.6132076, a: 1}
-  m_enableVertexGradient: 0
+    rgba: 4290226827
+  m_fontColor: {r: 0.54509807, g: 0.6666667, b: 0.7176471, a: 1}
+  m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 0ec3e4069680221e1b4f0ab13ebd882f, type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -1324,8 +1324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02996148f8e862632a0aae9e4dacdd6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPPointerEffects
-  hoverColor: {r: 0.69411767, g: 0.7490196, b: 0.8117647, a: 1}
-  activeColor: {r: 0.89411765, g: 0.94509804, b: 1, a: 1}
+  hoverColor: {r: 0.67058825, g: 0.85490197, b: 0.8980392, a: 1}
+  activeColor: {r: 0.9098039, g: 0.9882353, b: 1, a: 1}
 --- !u!1 &1256647618
 GameObject:
   m_ObjectHideFlags: 0
@@ -1393,16 +1393,16 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288450436
-  m_fontColor: {r: 0.51775545, g: 0.5626274, b: 0.6132076, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
+    rgba: 4290226827
+  m_fontColor: {r: 0.5444999, g: 0.6673368, b: 0.7169812, a: 1}
+  m_enableVertexGradient: 1
+  m_colorMode: 2
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 0ec3e4069680221e1b4f0ab13ebd882f, type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -1476,8 +1476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02996148f8e862632a0aae9e4dacdd6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPPointerEffects
-  hoverColor: {r: 0.69268423, g: 0.7485132, b: 0.8113208, a: 1}
-  activeColor: {r: 0.89411765, g: 0.94509804, b: 1, a: 1}
+  hoverColor: {r: 0.67058825, g: 0.8558146, b: 0.8980392, a: 1}
+  activeColor: {r: 0.9098039, g: 0.9896623, b: 1, a: 1}
 --- !u!1 &1408344016
 GameObject:
   m_ObjectHideFlags: 0
