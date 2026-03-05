@@ -182,6 +182,7 @@ public class CharacterMovement : MonoBehaviour
                 dashTimer = dashDuration;
                 dashDirection = new Vector2(lastDirection, 0f);
                 rb.gravityScale = 0f;
+                animator.ResetTrigger("Dash");
                 animator.SetTrigger("Dash");
             }
         }
@@ -213,6 +214,7 @@ public class CharacterMovement : MonoBehaviour
         }
 
         jumpQueued = false;
+        if (!isDashing) animator.ResetTrigger("Dash");
         rb.linearVelocity = velocity;
     }
 }
