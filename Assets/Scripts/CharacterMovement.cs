@@ -62,20 +62,13 @@ public class CharacterMovement : MonoBehaviour
         if (Keyboard.current != null)
         {
             if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
-            {
                 moveInputX -= 1f;
-            }
 
             if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
-            {
                 moveInputX += 1f;
-            }
 
-            // TODO: add up arrow key support
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
+            if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
                 jumpQueued = true;
-            }
         }
     }
 
@@ -199,10 +192,7 @@ public class CharacterMovement : MonoBehaviour
                 dashExitTimer = dashDuration * (dashSpeed / moveSpeed);
                 dashExitStartVelocity = dashDirection * dashSpeed;
             }
-            else
-            {
-                velocity = dashDirection * dashSpeed;
-            }
+            else velocity = dashDirection * dashSpeed;
         }
 
         // This block is basically for the smooth dash stop
