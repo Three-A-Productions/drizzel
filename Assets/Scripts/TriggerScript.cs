@@ -9,9 +9,8 @@ public class TriggerScript : MonoBehaviour
     [SerializeField]
     private string targetTag = "Player";
 
-    [TextArea]
     [SerializeField]
-    private string[] dialogueLines;
+    private DialogueLine[] dialogueLines;
 
     public UnityEvent onTriggerEnter;
     public UnityEvent onTriggerExit;

@@ -9,12 +9,25 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance { get; private set; }
 
     [SerializeField]
-    private float typingSpeed = 0.05f;
+    private float typingDelay = 0.03f;
 
+    [SerializeField]
+    private TMP_Text dialogueSpeaker;
+
+    [SerializeField]
     private TMP_Text dialogueText;
 
-    private Queue<string[]> dialogueQueue = new Queue<string[]>();
-    private string[] currentLines;
+    [SerializeField]
+    private TMP_Text dialogueHint;
+
+    [SerializeField]
+    private string defaultHint;
+
+    [SerializeField]
+    private float defaultAdvanceDelay;
+
+    private Queue<DialogueLine[]> dialogueQueue = new Queue<DialogueLine[]>();
+    private DialogueLine[] currentLines;
     private int currentLineIndex;
     private bool isTyping;
     private bool isDialogueActive;
@@ -29,11 +42,10 @@ public class DialogueManager : MonoBehaviour
         }
         Instance = this;
 
-        dialogueText = GetComponentInChildren<TMP_Text>();
         gameObject.SetActive(false);
     }
 
-    private void BeginDialogue(string[] lines)
+    private void BeginDialogue(DialogueLine[] lines)
     {
         currentLines = lines;
         currentLineIndex = 0;
@@ -43,7 +55,7 @@ public class DialogueManager : MonoBehaviour
         ShowCurrentLine();
     }
 
-    public void StartDialogue(string[] lines)
+    public void StartDialogue(DialogueLine[] lines)
     {
         // Queue the next dialogue if there is already one running
         if (isDialogueActive || isTyping)
@@ -79,23 +91,35 @@ public class DialogueManager : MonoBehaviour
         typingCoroutine = StartCoroutine(TypeLine(currentLines[currentLineIndex]));
     }
 
-    public IEnumerator TypeLine(string line)
+    public IEnumerator TypeLine(DialogueLine line)
     {
         isTyping = true;
-        dialogueText.text = "";
 
-        foreach (char c in line)
+        dialogueSpeaker.text = line.speaker;
+        dialogueText.text = "";
+        dialogueHint.text = "";
+
+        dialogueText.color = line.dialogueColor;
+
+        foreach (char c in line.dialogue)
         {
             dialogueText.text += c;
-            yield return new WaitForSeconds(typingSpeed);
+            yield return new WaitForSeconds(typingDelay);
         }
 
         isTyping = false;
+        dialogueHint.text = string.IsNullOrEmpty(line.hint) ? defaultHint : line.hint;
 
-        if (currentLineIndex >= currentLines.Length - 1)
+        if (!line.advanceManually)
         {
-            yield return new WaitForSeconds(2f);
-            EndDialogue();
+            yield return new WaitForSeconds(
+                line.advanceDelay <= 0f ? defaultAdvanceDelay : line.advanceDelay
+            );
+
+            if (currentLineIndex >= currentLines.Length - 1)
+                EndDialogue();
+            else
+                AdvanceLine();
         }
     }
 
@@ -104,7 +128,7 @@ public class DialogueManager : MonoBehaviour
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
-        dialogueText.text = currentLines[currentLineIndex];
+        dialogueText.text = currentLines[currentLineIndex].dialogue;
         isTyping = false;
     }
 
