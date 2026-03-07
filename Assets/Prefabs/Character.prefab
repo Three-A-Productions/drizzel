@@ -381,8 +381,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1796379157
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7708597212522857399, guid: ad4340443783099cc89995017730c09b, type: 3}
@@ -481,11 +481,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundCheckDistance: 0.1
+  wallJumpsAllowed: 1
   wallCheckDistance: 0.1
   wallSlideSpeed: 4
   wallJumpForceX: 8
   wallJumpForceY: 10
   wallJumpLockTime: 1
+  dashAllowed: 1
   dashSpeed: 18
   dashDuration: 0.15
   dashCooldown: 3
