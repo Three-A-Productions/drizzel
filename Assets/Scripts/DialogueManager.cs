@@ -59,23 +59,12 @@ public class DialogueManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void BeginDialogue(DialogueLine[] lines)
-    {
-        currentLines = lines;
-        currentLineIndex = 0;
-        isDialogueActive = true;
-
-        gameObject.SetActive(true);
-        ShowCurrentLine();
-    }
-
     private void Update()
     {
         if (!isDialogueActive)
             return;
 
-        bool modifierPressed =
-            Keyboard.current != null && Keyboard.current.shiftKey.isPressed;
+        bool modifierPressed = Keyboard.current != null && Keyboard.current.shiftKey.isPressed;
         bool advancePressed = Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame;
 
         if (advancePressed)
@@ -99,6 +88,16 @@ public class DialogueManager : MonoBehaviour
             else
                 AdvanceLine();
         }
+    }
+
+    public void BeginDialogue(DialogueLine[] lines)
+    {
+        currentLines = lines;
+        currentLineIndex = 0;
+        isDialogueActive = true;
+
+        gameObject.SetActive(true);
+        ShowCurrentLine();
     }
 
     private void ShowCurrentLine()
