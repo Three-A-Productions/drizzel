@@ -1,16 +1,93 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class StoryWriter : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static StoryWriter Instance { get; private set; }
+
+    [SerializeField]
+    private TMP_Text storyboardText;
+
+    [SerializeField]
+    private StoryLine[] storyLines;
+
+    private StoryLine currentLine;
+
+    private void Awake()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        StartCoroutine(BeginStory());
+    }
+
+    public IEnumerator BeginStory()
+    {
+        Debug.Log("Started story.");
+
+        // Fade in and fade out each line
+        foreach (StoryLine line in storyLines)
+        {
+            currentLine = line;
+            Debug.Log("Line: " + line);
+
+            currentLine.onLineStart.Invoke();
+            yield return StartCoroutine(FadeInLine());
+
+            yield return new WaitForSeconds(line.advanceDelay);
+
+            yield return StartCoroutine(FadeOutLine());
+            currentLine.onLineEnd.Invoke();
+        }
+    }
+
+    private IEnumerator FadeInLine()
+    {
+        SetAlpha(0);
+        storyboardText.text = currentLine.line;
+
+        float t = 0f;
+        while (t < currentLine.fadeDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            storyboardText.alpha = Mathf.Clamp01(t / currentLine.fadeDuration);
+            yield return null;
+        }
+
+        SetAlpha(1);
+    }
+
+    private IEnumerator FadeOutLine()
+    {
+        SetAlpha(1);
+
+        float t = 1f;
+        while (t < currentLine.fadeDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            storyboardText.alpha = Mathf.Clamp01(1 - t / currentLine.fadeDuration);
+            yield return null;
+        }
+
+        SetAlpha(0);
+        storyboardText.text = "";
+    }
+
+    private void SetAlpha(float alpha)
+    {
+        if (storyboardText != null)
+        {
+            Color c = storyboardText.color;
+            c.a = alpha;
+            storyboardText.color = c;
+        }
     }
 }
