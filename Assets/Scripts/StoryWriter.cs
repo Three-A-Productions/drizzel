@@ -50,6 +50,7 @@ public class StoryWriter : MonoBehaviour
     {
         SetAlpha(0);
         storyboardText.text = currentLine.line;
+        storyboardText.color = currentLine.lineColor;
 
         float t = 0f;
         while (t < currentLine.fadeDuration)
@@ -76,6 +77,7 @@ public class StoryWriter : MonoBehaviour
 
         SetAlpha(0);
         storyboardText.text = "";
+        storyboardText.color = Color.black;
     }
 
     private void SetAlpha(float alpha)
