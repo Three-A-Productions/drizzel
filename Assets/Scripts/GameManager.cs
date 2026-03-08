@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
 
     public void SwitchScene()
     {
-        if (ScreenFader.Instance != null)
-            ScreenFader.Instance.FadeToScene(sceneName);
+        ScreenFader screenFader = Object.FindFirstObjectByType<ScreenFader>();
+
+        if (screenFader != null)
+            screenFader.FadeToScene(sceneName);
         else
             UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
