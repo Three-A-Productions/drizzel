@@ -10,11 +10,13 @@ public class PlayerDeath : MonoBehaviour
     [SerializeField]
     private float deathDelay = 1f;
 
+    private ScreenFader screenFader;
     private Animator animator;
     private bool isDead;
 
     private void Awake()
     {
+        screenFader = Object.FindFirstObjectByType<ScreenFader>();
         animator = GetComponent<Animator>();
     }
 
@@ -71,8 +73,8 @@ public class PlayerDeath : MonoBehaviour
 
         string currentSceneName = SceneManager.GetActiveScene().name;
 
-        if (ScreenFader.Instance != null)
-            ScreenFader.Instance.FadeToScene(currentSceneName);
+        if (screenFader != null)
+            screenFader.FadeToScene(currentSceneName);
         else
             SceneManager.LoadScene(currentSceneName);
     }

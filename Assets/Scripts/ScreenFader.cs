@@ -5,53 +5,25 @@ using UnityEngine.UI;
 
 public class ScreenFader : MonoBehaviour
 {
-    public static ScreenFader Instance { get; private set; }
-
     [SerializeField]
     private Image fadeImage;
 
     [SerializeField]
     private float fadeDuration = 1f;
 
-    private bool isFirstLoad = true;
+    [SerializeField]
+    private bool fadeIn = true;
+
+    [SerializeField]
+    private bool fadeOut = true;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        SetAlpha(1f);
+        fadeImage.raycastTarget = false;
     }
 
     private void Start()
     {
-        StartCoroutine(FadeIn());
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (isFirstLoad)
-        {
-            isFirstLoad = false;
-            return;
-        }
-
         StartCoroutine(FadeIn());
     }
 
@@ -69,30 +41,44 @@ public class ScreenFader : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
-        float t = 0f;
-        SetAlpha(0f);
-        fadeImage.raycastTarget = true; // block input during fade
-        while (t < fadeDuration)
+        if (fadeOut)
         {
-            t += Time.unscaledDeltaTime;
-            SetAlpha(Mathf.Clamp01(t / fadeDuration));
-            yield return null;
+            SetAlpha(0f);
+            fadeImage.raycastTarget = true; // block input during fade
+
+            float t = 0f;
+            while (t < fadeDuration)
+            {
+                t += Time.unscaledDeltaTime;
+                SetAlpha(Mathf.Clamp01(t / fadeDuration));
+                yield return null;
+            }
+
+            SetAlpha(1f);
         }
-        SetAlpha(1f);
     }
 
     private IEnumerator FadeIn()
     {
-        float t = 0f;
-        SetAlpha(1f);
-        while (t < fadeDuration)
+        if (fadeIn)
         {
-            t += Time.unscaledDeltaTime;
-            SetAlpha(1f - Mathf.Clamp01(t / fadeDuration));
-            yield return null;
+            SetAlpha(1f);
+            fadeImage.raycastTarget = true;
+
+            for (int i = 0; i < 5; i++)
+                yield return null;
+
+            float t = 0f;
+            while (t < fadeDuration)
+            {
+                t += Time.unscaledDeltaTime;
+                SetAlpha(1f - Mathf.Clamp01(t / fadeDuration));
+                yield return null;
+            }
+
+            SetAlpha(0f);
+            fadeImage.raycastTarget = false; // re-enable input
         }
-        SetAlpha(0f);
-        fadeImage.raycastTarget = false; // re-enable input
     }
 
     private void SetAlpha(float alpha)
