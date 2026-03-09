@@ -244,6 +244,7 @@ public class CharacterMovement : MonoBehaviour
                 // Since the player is on the ground, just jump normally
                 velocity.y = jumpForce;
                 wallJumpLockTimer = wallJumpLockTime;
+                coyoteTimer = 0f;
                 animator.SetTrigger("Jump");
             }
             else if (wallJumpAllowed && isTouchingWall)
