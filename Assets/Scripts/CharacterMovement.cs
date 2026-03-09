@@ -175,7 +175,7 @@ public class CharacterMovement : MonoBehaviour
         /* "Wall sliding" is essentially when the player is "moving" in the direction of the wall while already touching the wall.
          * This mechanic should cause the player to slide down the wall slower than if they were to simply fall straight down.
          * The player is pushing into the wall if either (a) the player is moving right and the wall is on the right, or (b) if the player is moving left and the wall is on the left.
-         * If the player is touching the wall, isn't grounded, is pushing into the wall, and the wall jump lock timer has ended, then the player is wall sliding.
+         * If the player is touching the wall, isn't grounded, and is pushing into the wall, then the player is wall sliding.
          */
         bool pushingIntoWall =
             (moveInputX > 0.1f && wallDirection == 1)
