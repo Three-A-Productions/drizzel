@@ -37,6 +37,9 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField]
     private float groundCheckDistance = 0.1f;
 
+    [SerializeField]
+    private float coyoteTime = 0.24f;
+
     [Header("Wall Jump")]
     public bool wallJumpAllowed = true;
 
@@ -68,6 +71,9 @@ public class CharacterMovement : MonoBehaviour
     private float dashCooldown = 3f;
 
     [SerializeField]
+    private float minDashWallDistance = 1f;
+
+    [SerializeField]
     private Image dashIndicatorOverlay;
 
     [SerializeField]
@@ -82,6 +88,7 @@ public class CharacterMovement : MonoBehaviour
     private float slopeSlideTime;
     private Vector2 slopeNormal = Vector2.up;
     private bool jumpQueued;
+    private float coyoteTimer;
     private bool isTouchingWall;
     private bool isWallSliding;
     private int wallDirection; // -1 = left, 1 = right
@@ -153,17 +160,22 @@ public class CharacterMovement : MonoBehaviour
             groundLayer
         );
 
+        if (isGrounded)
+            coyoteTimer = coyoteTime;
+        else
+            coyoteTimer -= Time.fixedDeltaTime;
+
         AlignWithSurface();
 
-        bool touchingRight = CheckWall(Vector2.right);
-        bool touchingLeft = CheckWall(Vector2.left);
+        bool touchingRight = CheckWall(Vector2.right, wallCheckDistance);
+        bool touchingLeft = CheckWall(Vector2.left, wallCheckDistance);
         isTouchingWall = touchingRight || touchingLeft;
         wallDirection = touchingRight ? 1 : (touchingLeft ? -1 : 0); // basically: 1 if touchingRight else (-1 if touchingLeft else 0)
 
         /* "Wall sliding" is essentially when the player is "moving" in the direction of the wall while already touching the wall.
          * This mechanic should cause the player to slide down the wall slower than if they were to simply fall straight down.
          * The player is pushing into the wall if either (a) the player is moving right and the wall is on the right, or (b) if the player is moving left and the wall is on the left.
-         * If the player is touching the wall, isn't grounded, is pushing into the wall, and the wall jump lock timer has ended, then the player is wall sliding.
+         * If the player is touching the wall, isn't grounded, and is pushing into the wall, then the player is wall sliding.
          */
         bool pushingIntoWall =
             (moveInputX > 0.1f && wallDirection == 1)
@@ -227,11 +239,12 @@ public class CharacterMovement : MonoBehaviour
 
         if (jumpQueued)
         {
-            if (isGrounded)
+            if (coyoteTimer > 0f)
             {
                 // Since the player is on the ground, just jump normally
                 velocity.y = jumpForce;
                 wallJumpLockTimer = wallJumpLockTime;
+                coyoteTimer = 0f;
                 animator.SetTrigger("Jump");
             }
             else if (wallJumpAllowed && isTouchingWall)
@@ -242,14 +255,19 @@ public class CharacterMovement : MonoBehaviour
                 wallJumpLockTimer = wallJumpLockTime;
                 animator.SetTrigger("Jump");
             }
-            else if (dashAllowed && !isDashing && dashCooldownTimer <= 0f)
+            else if (
+                dashAllowed
+                && !isDashing
+                && dashCooldownTimer <= 0f
+                && !CheckWall(Vector2.right, minDashWallDistance)
+                && !CheckWall(Vector2.left, minDashWallDistance)
+            )
             {
                 // Dash through the air
                 isDashing = true;
                 dashTimer = dashDuration;
                 dashDirection = new Vector2(lastDirection, 0f);
                 rb.gravityScale = 0f;
-                animator.ResetTrigger("Dash");
                 animator.SetTrigger("Dash");
             }
         }
@@ -279,8 +297,6 @@ public class CharacterMovement : MonoBehaviour
         }
 
         jumpQueued = false;
-        if (!isDashing)
-            animator.ResetTrigger("Dash");
         rb.linearVelocity = velocity;
     }
 
@@ -321,7 +337,7 @@ public class CharacterMovement : MonoBehaviour
     private bool IsWall(RaycastHit2D hit) => hit.collider && Mathf.Abs(hit.normal.y) < 0.5f; // if the wall is mostly pointing sideways
 
     // This method checks whether or not the player is touching a wall on either side
-    private bool CheckWall(Vector2 direction)
+    private bool CheckWall(Vector2 direction, float distance)
     {
         Bounds bounds = col.bounds;
         float inset = bounds.extents.y * 0.1f;
@@ -333,7 +349,7 @@ public class CharacterMovement : MonoBehaviour
         Vector2 center = new Vector2(bounds.center.x, bounds.center.y);
         Vector2 bottom = new Vector2(bounds.center.x, bounds.min.y + inset);
 
-        float dist = bounds.extents.x + wallCheckDistance;
+        float dist = bounds.extents.x + distance;
 
         return IsWall(Physics2D.Raycast(top, direction, dist, groundLayer))
             || IsWall(Physics2D.Raycast(center, direction, dist, groundLayer))
