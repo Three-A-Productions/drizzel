@@ -71,6 +71,9 @@ public class CharacterMovement : MonoBehaviour
     private float dashCooldown = 3f;
 
     [SerializeField]
+    private float minDashWallDistance = 1f;
+
+    [SerializeField]
     private Image dashIndicatorOverlay;
 
     [SerializeField]
@@ -164,8 +167,8 @@ public class CharacterMovement : MonoBehaviour
 
         AlignWithSurface();
 
-        bool touchingRight = CheckWall(Vector2.right);
-        bool touchingLeft = CheckWall(Vector2.left);
+        bool touchingRight = CheckWall(Vector2.right, wallCheckDistance);
+        bool touchingLeft = CheckWall(Vector2.left, wallCheckDistance);
         isTouchingWall = touchingRight || touchingLeft;
         wallDirection = touchingRight ? 1 : (touchingLeft ? -1 : 0); // basically: 1 if touchingRight else (-1 if touchingLeft else 0)
 
@@ -251,7 +254,13 @@ public class CharacterMovement : MonoBehaviour
                 wallJumpLockTimer = wallJumpLockTime;
                 animator.SetTrigger("Jump");
             }
-            else if (dashAllowed && !isDashing && dashCooldownTimer <= 0f)
+            else if (
+                dashAllowed
+                && !isDashing
+                && dashCooldownTimer <= 0f
+                && !CheckWall(Vector2.right, minDashWallDistance)
+                && !CheckWall(Vector2.left, minDashWallDistance)
+            )
             {
                 // Dash through the air
                 isDashing = true;
@@ -327,7 +336,7 @@ public class CharacterMovement : MonoBehaviour
     private bool IsWall(RaycastHit2D hit) => hit.collider && Mathf.Abs(hit.normal.y) < 0.5f; // if the wall is mostly pointing sideways
 
     // This method checks whether or not the player is touching a wall on either side
-    private bool CheckWall(Vector2 direction)
+    private bool CheckWall(Vector2 direction, float distance)
     {
         Bounds bounds = col.bounds;
         float inset = bounds.extents.y * 0.1f;
@@ -339,7 +348,7 @@ public class CharacterMovement : MonoBehaviour
         Vector2 center = new Vector2(bounds.center.x, bounds.center.y);
         Vector2 bottom = new Vector2(bounds.center.x, bounds.min.y + inset);
 
-        float dist = bounds.extents.x + wallCheckDistance;
+        float dist = bounds.extents.x + distance;
 
         return IsWall(Physics2D.Raycast(top, direction, dist, groundLayer))
             || IsWall(Physics2D.Raycast(center, direction, dist, groundLayer))
