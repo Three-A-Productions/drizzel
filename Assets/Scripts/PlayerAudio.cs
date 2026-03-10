@@ -92,30 +92,23 @@ public class PlayerAudio : MonoBehaviour
 
         if (!playerDeath.isDead)
         {
-            // Jumping
-            if (characterMovement.didJump && !DialogueManager.Instance.IsDialogueActive())
+            if (characterMovement.didDash) // dash
+                AudioManager.Instance.PlayAudio(dashSFX, dashVolume);
+            else if (characterMovement.didJump && !DialogueManager.Instance.IsDialogueActive()) // jumping
             {
                 AudioManager.Instance.PlayAudio(jumpStartSFX, jumpStartVolume);
                 wasAirborne = true;
             }
-
-            // Wall jump
-            if (characterMovement.didWallJump && !DialogueManager.Instance.IsDialogueActive())
+            else if (characterMovement.didWallJump && !DialogueManager.Instance.IsDialogueActive()) // wall jump
             {
                 AudioManager.Instance.PlayAudio(wallJumpStartSFX, wallJumpStartVolume);
                 wasAirborne = true;
             }
-
-            // Landing
-            if (wasAirborne && isGrounded)
+            else if (wasAirborne && isGrounded) // land
             {
                 AudioManager.Instance.PlayAudio(jumpLandSFX, jumpLandVolume);
                 wasAirborne = false;
             }
-
-            // Dash
-            if (characterMovement.didDash)
-                AudioManager.Instance.PlayAudio(dashSFX, dashVolume);
         }
         else if (!hasDied) // death
         {
