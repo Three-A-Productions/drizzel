@@ -29,9 +29,8 @@ public class ParallaxEffect : MonoBehaviour
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
 
-        // -1 <= offset <= 1
-        float offsetX = (mousePos.x - Screen.width / 2f) / (Screen.width / 2f);
-        float offsetY = (mousePos.y - Screen.height / 2f) / (Screen.height / 2f);
+        float offsetX = -1 * (mousePos.x - Screen.width / 2f) / (Screen.width / 2f);
+        float offsetY = -1 * (mousePos.y - Screen.height / 2f) / (Screen.height / 2f);
 
         Vector2 targetPosition =
             startPosition
