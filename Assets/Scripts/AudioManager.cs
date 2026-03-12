@@ -24,6 +24,12 @@ public class AudioManager : MonoBehaviour
             PlayAudio(loop.audioClip, loop.volume, true);
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     public void PlayAudio(
         AudioClip audioClip,
         float volume = 1f,
@@ -99,5 +105,33 @@ public class AudioManager : MonoBehaviour
 
         audioSource.volume = 0f;
         audioSource.Stop();
+    }
+
+    public void FadeOutAll(float fadeTime)
+    {
+        DontDestroyOnLoad(gameObject);
+        StartCoroutine(FadeOutAllAndDestroy(fadeTime));
+    }
+
+    private IEnumerator FadeOutAllAndDestroy(float fadeTime)
+    {
+        AudioSource[] sources = GetComponents<AudioSource>();
+        float[] startVolumes = System.Array.ConvertAll(sources, s => s.volume);
+        float timer = 0f;
+
+        while (timer < fadeTime)
+        {
+            timer += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(timer / fadeTime);
+            for (int i = 0; i < sources.Length; i++)
+            {
+                if (sources[i] != null)
+                    sources[i].volume = Mathf.Lerp(startVolumes[i], 0f, t);
+            }
+            yield return null;
+        }
+
+        Instance = null;
+        Destroy(gameObject);
     }
 }
