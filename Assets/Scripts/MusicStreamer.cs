@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class MainMenu : MonoBehaviour
+public class MusicStreamer : MonoBehaviour
 {
-    public static MainMenu Instance { get; private set; }
+    public static MusicStreamer Instance { get; private set; }
 
     [SerializeField]
     private BackgroundTrack[] backgroundTracks;
