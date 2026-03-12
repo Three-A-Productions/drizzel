@@ -8,8 +8,6 @@ public class MusicStreamer : MonoBehaviour
     [SerializeField]
     private BackgroundTrack[] backgroundTracks;
 
-    private bool isPlayingTrack = false;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -29,23 +27,12 @@ public class MusicStreamer : MonoBehaviour
     {
         while (true)
         {
-            if (!isPlayingTrack)
-                PlayRandomSong();
+            int idx = Random.Range(0, backgroundTracks.Length);
+            BackgroundTrack track = backgroundTracks[idx];
 
-            yield return null;
+            AudioManager.Instance.PlayAudio(track.audioClip, track.volume, false, true, true, 15f);
+
+            yield return new WaitForSeconds(track.audioClip.length);
         }
-    }
-
-    private void PlayRandomSong()
-    {
-        if (isPlayingTrack)
-            return;
-
-        isPlayingTrack = true;
-
-        int idx = Random.Range(0, backgroundTracks.Length);
-        BackgroundTrack track = backgroundTracks[idx];
-
-        AudioManager.Instance.PlayAudio(track.audioClip, track.volume, false, true, true, 15f);
     }
 }
