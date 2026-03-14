@@ -68,6 +68,7 @@ public class PauseController : MonoBehaviour
     {
         sceneIsTransitioning = false;
         pauseMenu = null;
+        isPaused = false;
         Time.timeScale = 1f;
     }
 
@@ -101,6 +102,9 @@ public class PauseController : MonoBehaviour
             yield break;
 
         pauseMenu.gameObject.SetActive(true);
+
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
 
         float t = 0f;
 
@@ -136,7 +140,11 @@ public class PauseController : MonoBehaviour
         }
 
         menuIsFading = false;
+
         canvasGroup.alpha = 0f;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
+
         pauseMenu.gameObject.SetActive(false);
     }
 }
