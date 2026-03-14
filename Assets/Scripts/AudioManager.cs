@@ -83,7 +83,7 @@ public class AudioManager : MonoBehaviour
 
         while (timer < fadeTime)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             audioSource.volume = Mathf.Lerp(0f, targetVolume, timer / fadeTime);
             yield return null;
         }
@@ -98,7 +98,7 @@ public class AudioManager : MonoBehaviour
 
         while (timer < fadeTime)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             audioSource.volume = Mathf.Lerp(startVolume, 0f, timer / fadeTime);
             yield return null;
         }
