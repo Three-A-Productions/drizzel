@@ -55,7 +55,7 @@ public class ScreenFader : MonoBehaviour
             float t = 0f;
             while (t < fadeDuration)
             {
-                t += Time.unscaledDeltaTime;
+                t += Time.deltaTime;
                 SetAlpha(Mathf.Clamp01(t / fadeDuration));
                 yield return null;
             }
@@ -77,7 +77,7 @@ public class ScreenFader : MonoBehaviour
             float t = 0f;
             while (t < fadeDuration)
             {
-                t += Time.unscaledDeltaTime;
+                t += Time.deltaTime;
                 SetAlpha(1f - Mathf.Clamp01(t / fadeDuration));
                 yield return null;
             }

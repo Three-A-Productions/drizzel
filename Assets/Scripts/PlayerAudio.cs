@@ -83,8 +83,8 @@ public class PlayerAudio : MonoBehaviour
         }
         else
         {
-            groundedGraceTimer -= Time.unscaledDeltaTime;
-            airborneTimer += Time.unscaledDeltaTime;
+            groundedGraceTimer -= Time.deltaTime;
+            airborneTimer += Time.deltaTime;
         }
 
         if (airborneTimer >= minAirborneTime)

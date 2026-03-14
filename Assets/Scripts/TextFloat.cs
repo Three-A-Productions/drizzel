@@ -22,11 +22,11 @@ public class TextFloat : MonoBehaviour
 
     void Update()
     {
-        float x = (Mathf.PerlinNoise(Time.unscaledTime * speed, 0f) - 0.5f) * 2f * moveMagnitude;
+        float x = (Mathf.PerlinNoise(Time.time * speed, 0f) - 0.5f) * 2f * moveMagnitude;
         float y =
-            (Mathf.PerlinNoise(0f, Time.unscaledTime * speed + 100f) - 0.5f) * 2f * moveMagnitude;
+            (Mathf.PerlinNoise(0f, Time.time * speed + 100f) - 0.5f) * 2f * moveMagnitude;
         float z =
-            (Mathf.PerlinNoise(Time.unscaledTime * speed + 200f, 50f) - 0.5f)
+            (Mathf.PerlinNoise(Time.time * speed + 200f, 50f) - 0.5f)
             * 2f
             * rotationMagnitude;
 
