@@ -2,8 +2,5 @@ using UnityEngine;
 
 public class GameControls : MonoBehaviour
 {
-    public void UPauseGame()
-    {
-        PauseController.Instance.PauseGame();
-    }
+    public void ExtPauseGame() => PauseController.Instance.PauseGame();
 }

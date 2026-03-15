@@ -2,8 +2,5 @@ using UnityEngine;
 
 public class StoryboardManager : MonoBehaviour
 {
-    public void USwitchScene()
-    {
-        GameManager.Instance.SwitchScene();
-    }
+    public void ExtSwitchScene() => GameManager.Instance.SwitchScene();
 }

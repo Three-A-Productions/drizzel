@@ -158,7 +158,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 60517144778136623}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: UQuitToMenu
+        m_MethodName: ExtQuitToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -655,7 +655,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 60517144778136623}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: UResumeGame
+        m_MethodName: ExtResumeGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

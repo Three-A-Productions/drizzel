@@ -7,13 +7,7 @@ public class PauseMenu : MonoBehaviour
         PauseController.Instance.RegisterPauseMenu(GetComponent<Canvas>());
     }
 
-    public void UResumeGame()
-    {
-        PauseController.Instance.ResumeGame();
-    }
+    public void ExtResumeGame() => PauseController.Instance.ResumeGame();
 
-    public void UQuitToMenu()
-    {
-        GameManager.Instance.SwitchSceneManual("MainMenu");
-    }
+    public void ExtQuitToMenu() => GameManager.Instance.SwitchSceneManual("MainMenu");
 }

@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8718374588747225768}
         m_TargetAssemblyTypeName: GameControls, Assembly-CSharp
-        m_MethodName: UPauseGame
+        m_MethodName: ExtPauseGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
