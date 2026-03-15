@@ -2,13 +2,13 @@
 
 You are a single drop of water.
 
-You fall alone, descending through ancient caverns where jagged stone walls close in and silence engulfs the caves. Every obstacle is a threat. Every passage forward is a small step forward. Drizzel is a two-dimensional platformer about something fragile finding its way through a world that was never built for it.
-
-Can you survive the deep?
+You fall alone, descending through ancient caves where deep stone walls close in and consume every sign of hope. Every obstacle is a threat. Every passage forward is merely a small step. Drizzel is a two-dimensional platformer about something small finding its way through a place that was never built for it.
 
 ## Tools Used
 
 Drizzel is an open-source game built with [Unity](https://unity.com). It is coded in C# (C-Sharp) and uses a variety of two-dimensional assets from [itch.io](https://itch.io) and [OpenGameArt](https://opengameart.org).
+
+[LibreSprite](https://libresprite.github.io) was used to create various assets and game art.
 
 ## Acknowledgements
 
